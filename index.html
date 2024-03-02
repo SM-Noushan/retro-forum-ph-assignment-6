@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retro Forum</title>
+    <title>zerOne Forum</title>
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@
     </script>
 </head>
 
-<body class="font-mulish container max-w-screen-md lg:max-w-screen-lg mx-auto">
+<body class="font-mulish container max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
     <header>
         <!-- navbar -->
         <nav class="my-4">
@@ -98,6 +98,54 @@
                 </div>
             </div>
         </nav>
+        <!-- hero section -->
+        <section>
+            <div
+                class="hero px-4 py-12 md:p-20 lg:p-24 bg-color1 bg-[url('assets/images/bgbanner.png')] bg-no-repeat bg-cover md:bg-contain bg-bottom rounded-[32px]">
+                <div class="hero-content p-0 md:p-4 flex-col-reverse items-center justify-center sm:flex-row-reverse">
+                    <div class="bg-white rounded-[32px] lg:p-12">
+                        <div class="">
+                            <table class="table my-4 min-w-64">
+                                <tbody class="*:text-color1/80 *:font-medium lg:*:text-lg xl:*:text-xl">
+                                    <tr class="hover">
+                                        <td colspan="2">Registered Users</td>
+                                        <td class="text-right">100</td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <td colspan="2">Forum</td>
+                                        <td class="text-right">10</td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <td colspan="2">Topics</td>
+                                        <td class="text-right">03</td>
+                                    </tr>
+                                    <tr class="hover">
+                                        <td colspan="2">Replies</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h1 class="text-3xl md:text-4xl lg:text-6xl font-black leading-tight text-white">Welcome to the
+                            <br> <span
+                                class="bg-[linear-gradient(90deg,rgba(121,125,252,1)0.63%,rgba(121,125,252,0.5)41%)] text-transparent bg-clip-text">zerOne</span>
+                            Forum
+                        </h1>
+                        <p class="mx-auto sm:mx-0 py-6 w-3/4 text-white/60 md:text-xl font-medium">Share ideas, ask
+                            questions,
+                            and
+                            connect
+                            with fellow enthusiasts.</p>
+                        <label class="input input-bordered flex items-center gap-2 rounded-full lg:w-3/4">
+                            <input type="text" class="grow input-xs md:input-md" placeholder="Search here anything" />
+                            <button class="btn btn-sm bg-color2 rounded-full text-white px-4">Search</button>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
     </header>
     <script src="app.js"></script>
 </body>
