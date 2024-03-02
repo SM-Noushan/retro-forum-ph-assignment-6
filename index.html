@@ -37,8 +37,68 @@
     </script>
 </head>
 
-<body>
+<body class="font-mulish container max-w-screen-md lg:max-w-screen-lg mx-auto">
+    <header>
+        <!-- navbar -->
+        <nav class="my-4">
+            <div class="navbar">
+                <div class="navbar-start">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost md:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul tabindex="0"
+                            class="menu menu-md dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li>
+                                <a><i class="fa-solid fa-house text-[#12132D99]"></i> Home</a>
+                            </li>
+                            <li>
+                                <a><i class="fa-solid fa-pencil text-[#12132D99]"></i> Edit</a>
+                            </li>
+                            <li>
+                                <a><i class="fa-solid fa-user-plus text-[#12132D99]"></i> Invite</a>
+                            </li>
+                            <li>
+                                <a><i class="fa-brands fa-font-awesome text-[#12132D99]"></i> Feedback</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="hover:cursor-pointer text-xl md:text-4xl text-color1 leading-normal font-black">zerOne</a>
+                </div>
 
+                <div class="navbar-end space-x-2">
+                    <div class="hidden md:flex">
+                        <ul
+                            class="menu menu-horizontal *:bg-[#0307121A] *:border *:border-[#0307121A] *:rounded-full *:size-10 space-x-4">
+                            <li title="Home">
+                                <a class="p-0 size-full flex justify-center items-center rounded-full"><i
+                                        class="fa-solid fa-house text-[#12132D99]"></i></a>
+                            </li>
+                            <li title="Edit">
+                                <a class="p-0 size-full flex justify-center items-center rounded-full"><i
+                                        class="fa-solid fa-pencil text-[#12132D99]"></i></a>
+                            </li>
+                            <li title="Invite">
+                                <a class="p-0 size-full flex justify-center items-center rounded-full"><i
+                                        class="fa-solid fa-user-plus text-[#12132D99]"></i></a>
+                            </li>
+                            <li title="Feedback">
+                                <a class="p-0 size-full flex justify-center items-center rounded-full"><i
+                                        class="fa-brands fa-font-awesome text-[#12132D99]"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a
+                        class="btn bg-color2 hover:bg-color2/80 text-white rounded-full px-6 lg:px-10 font-bold text-sm md:text-xl leading-normal">Sign
+                        in</a>
+                </div>
+            </div>
+        </nav>
+    </header>
     <script src="app.js"></script>
 </body>
 
