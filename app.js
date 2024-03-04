@@ -2,8 +2,8 @@
 let count = 0; //stores the total number of posts that are marked as read
 
 // toggle loading indicator
-const toggleLoader = (state) => {
-    const loader = document.getElementById('data-loader');
+const toggleLoader = (state, id) => {
+    const loader = document.getElementById(id);
     if (state) {
         loader.classList.remove('hidden');
         loader.classList.add('flex');
@@ -30,16 +30,24 @@ const markAsRead = (title, view) => {
     postCount.innerText = count;
 }
 
+// display error alert
+const toggleErrorAlert = (status) => {
+    toggleLoader(status, 'error-alert');
+}
+
 // display data
 const displayAllPost = (posts) => {
     const allPostContainer = document.getElementById('all-post');
     allPostContainer.textContent = '';
-    posts.forEach(post => {
-        // console.log(post);
-        const postCard = document.createElement('div');
-        postCard.classList = 'card card-side bg-[#F3F3F5] gap-2 md:gap-10 rounded-3xl p-4 md:p-10';
-        postCard.innerHTML =
-            `<figure class="size-28">
+    if (posts.length === 0)
+        toggleErrorAlert(true);
+    else {
+        toggleErrorAlert(false);
+        posts.forEach(post => {
+            const postCard = document.createElement('div');
+            postCard.classList = 'card card-side bg-[#F3F3F5] gap-2 md:gap-10 rounded-3xl p-4 md:p-10';
+            postCard.innerHTML =
+                `<figure class="size-28">
                 <div class="p-1 relative rounded-xl">
                     <div id="status"
                         class="size-2.5 md:size-4 rounded-full ${post.isActive ? 'bg-success' : 'bg-error'} absolute end-0.5 md:end-0 top-0 z-50">
@@ -72,23 +80,29 @@ const displayAllPost = (posts) => {
                             <span>${post.posted_time} Min</span>
                         </div>
                     </div>
-                    <div class="bg-success rounded-full size-8 md:size-10 flex justify-center items-center">
+                    <div class="bg-success hover:bg-success/80 rounded-full size-8 md:size-10 flex justify-center items-center">
                         <button class="mark-as-read w-full rounded-full"><i
                                 class="fa-regular fa-envelope-open text-white text-base md:text-xl"></i></button>
                     </div>
                 </div>
             </div>`
-        allPostContainer.append(postCard);
-        const btn = allPostContainer.lastChild.getElementsByTagName('button')[0];
-        btn.addEventListener('click', () => markAsRead(post.title, post.view_count));
-    });
-    toggleLoader(false);
+            allPostContainer.append(postCard);
+            const btn = allPostContainer.lastChild.getElementsByTagName('button')[0];
+            btn.addEventListener('click', () => markAsRead(post.title, post.view_count));
+        });
+    }
+    toggleLoader(false, 'data-loader');
 }
 
 // fetch data
-const fetchAllPost = () => {
-    toggleLoader(true);
-    const url = 'https://openapi.programming-hero.com/api/retro-forum/posts';
+const fetchPosts = (type = 'all-post', category = null) => {
+    toggleLoader(true, 'data-loader');
+    let url = null;
+    if (type === 'all-post')
+        url = 'https://openapi.programming-hero.com/api/retro-forum/posts';
+    if (type === 'search')
+        url = `https://openapi.programming-hero.com/api/retro-forum/posts?category=${category}`;
+
     setTimeout(async () => {
         const res = await fetch(url);
         const { posts } = await res.json();
@@ -97,4 +111,19 @@ const fetchAllPost = () => {
     }, 1);
 }
 
-fetchAllPost();
+// handle search
+const searchPostsOnEnter = document.getElementById('search-posts-input');
+const searchPostsOnClick = document.getElementById('search-posts-btn');
+
+const searchPosts = data => {
+    // searchPostsOnEnter.value = '';
+    fetchPosts('search', data);
+}
+
+searchPostsOnEnter.addEventListener('keyup', e => {
+    if (e.key.toLocaleLowerCase() === 'enter')
+        searchPosts(searchPostsOnEnter.value || null);
+});
+searchPostsOnClick.addEventListener('click', () => { searchPosts(searchPostsOnEnter.value || null) });
+
+fetchPosts();

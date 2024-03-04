@@ -134,13 +134,11 @@
                             Forum
                         </h1>
                         <p class="mx-auto sm:mx-0 py-6 w-3/4 text-white/60 md:text-xl font-medium">Share ideas, ask
-                            questions,
-                            and
-                            connect
-                            with fellow enthusiasts.</p>
+                            questions, and connect with fellow enthusiasts.</p>
                         <label class="input input-bordered flex items-center gap-2 rounded-full lg:w-3/4">
-                            <input type="text" class="grow input-xs md:input-md" placeholder="Search here anything" />
-                            <button
+                            <input id="search-posts-input" type="text" class="grow input-xs md:input-md"
+                                placeholder="Search here anything" />
+                            <button id="search-posts-btn"
                                 class="btn btn-sm bg-color2 hover:bg-color2/80 rounded-full text-white px-4">Search</button>
                         </label>
                     </div>
@@ -170,10 +168,22 @@
                 <span class="loading loading-ring loading-md"></span>
                 <span class="loading loading-ring loading-lg"></span>
             </div>
+
             <!-- posts container -->
-            <div class="flex justify-between flex-col lg:flex-row gap-6">
-                <div id="all-post" class="space-y-6"> </div>
-                <!-- marked as read (posts) container -->
+            <div id="posts-container" class="flex justify-between flex-col lg:flex-row gap-6">
+                <!-- error alert -->
+                <div id="error-alert" role="alert"
+                    class="hidden alert alert-error text-white justify-center items-center h-24">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Error! No results found.</span>
+                </div>
+                <!-- posts details -->
+                <div id="all-post" class="space-y-6 xl:w-[828px]"> </div>
+                <!-- posts marked as read -->
                 <div class="bg-[#F3F3F5] rounded-3xl p-6 text-color1 lg:w-[428px] h-max">
                     <div class="flex justify-between items-center">
                         <h1 class="text-xl font-bold">Title</h1>
