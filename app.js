@@ -35,17 +35,22 @@ const toggleErrorAlert = (status) => {
     toggleLoader(status, 'error-alert');
 }
 
-// display data
+// display all/searched posts
 const displayAllPost = (posts) => {
     const allPostContainer = document.getElementById('all-post');
     allPostContainer.textContent = '';
-    if (posts.length === 0)
+    if (posts.length === 0) {
+        allPostContainer.classList.remove('flex');
+        allPostContainer.classList.add('hidden');
         toggleErrorAlert(true);
+    }
     else {
         toggleErrorAlert(false);
+        allPostContainer.classList.add('flex');
+        allPostContainer.classList.remove('hidden');
         posts.forEach(post => {
             const postCard = document.createElement('div');
-            postCard.classList = 'card card-side bg-[#F3F3F5] gap-2 md:gap-10 rounded-3xl p-4 md:p-10';
+            postCard.classList = 'card card-side bg-[#F3F3F5] gap-2 md:gap-10 rounded-3xl p-4 md:p-10 lg:w-[652px] xl:w-[828px]';
             postCard.innerHTML =
                 `<figure class="size-28">
                 <div class="p-1 relative rounded-xl">
@@ -94,10 +99,48 @@ const displayAllPost = (posts) => {
     toggleLoader(false, 'data-loader');
 }
 
+// display latest post
+const displayLatestPosts = (data) => {
+    const latestPostsContainer = document.getElementById('latest-posts');
+    latestPostsContainer.textContent = '';
+    data.forEach((post, index) => {
+        latestPostsContainer.innerHTML +=
+            `<div class="${index === 2 ? 'md:col-start-2 lg:col-start-3' : ''} md:col-span-2 lg:col-span-1 card card-compact p-6 rounded-3xl border border-color1/15">
+                <figure class="rounded-3xl bg-[#12132D]/5 min-h-48"><img class="rounded-3xl"
+                        src="${post.cover_image}" alt="cover-image" />
+                </figure>
+                <div class="card-body p-0 text-color1">
+                    <div class="flex items-center gap-2 opacity-80 font-medium text-sm">
+                        <i class="text-xs md:text-base fa-regular fa-calendar"></i>
+                        <h2 class="text-xs md:text-sm">${post.author?.posted_date || 'No Publish Date'}</h2>
+                    </div>
+                    <h2 class="card-title text-base md:text-lg font-bold">${post.title}</h2>
+                    <p class="text-justify text-sm md:text-base opacity-60 leading-7">${post.description}</p>
+                    <div class="flex items-center mt-4">
+                        <div class="flex items-center gap-4 md:gap-6 text-color1">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                    <img
+                                        src="${post.profile_image}" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="font-bold text-sm md:text-base">${post.author.name}</p>
+                                <span class="opacity-60 text-xs md:text-sm">${post.author?.designation || 'Unknown'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+    });
+}
+
 // fetch data
-const fetchPosts = (type = 'all-post', category = null) => {
+const fetchPosts = (type = null, category = null, timeout = 2000) => {
     toggleLoader(true, 'data-loader');
     let url = null;
+    if (type === 'latest-posts')
+        url = 'https://openapi.programming-hero.com/api/retro-forum/latest-posts';
     if (type === 'all-post')
         url = 'https://openapi.programming-hero.com/api/retro-forum/posts';
     if (type === 'search')
@@ -105,10 +148,13 @@ const fetchPosts = (type = 'all-post', category = null) => {
 
     setTimeout(async () => {
         const res = await fetch(url);
-        const { posts } = await res.json();
-        // console.log(posts);
-        displayAllPost(posts);
-    }, 1);
+        const data = await res.json();
+        if (type === 'latest-posts')
+            displayLatestPosts(data);
+        else {
+            displayAllPost(data.posts);
+        }
+    }, timeout);
 }
 
 // handle search
@@ -126,4 +172,6 @@ searchPostsOnEnter.addEventListener('keyup', e => {
 });
 searchPostsOnClick.addEventListener('click', () => { searchPosts(searchPostsOnEnter.value || null) });
 
-fetchPosts();
+// ... .. Page Load .. ... //
+fetchPosts('latest-posts', null, 0);
+fetchPosts('all-post');
