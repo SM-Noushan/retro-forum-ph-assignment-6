@@ -1,8 +1,8 @@
 // global variables
 let count = 0; //stores the total number of posts that are marked as read
 
-// toggle loading indicator
-const toggleLoader = (state, id) => {
+// toggle state: data-loader, error-alert, display-data
+const toggleState = (state, id) => {
     const loader = document.getElementById(id);
     if (state) {
         loader.classList.remove('hidden');
@@ -30,24 +30,18 @@ const markAsRead = (title, view) => {
     postCount.innerText = count;
 }
 
-// display error alert
-const toggleErrorAlert = (status) => {
-    toggleLoader(status, 'error-alert');
-}
-
 // display all/searched posts
 const displayAllPost = (posts) => {
     const allPostContainer = document.getElementById('all-post');
     allPostContainer.textContent = '';
     if (posts.length === 0) {
-        allPostContainer.classList.remove('flex');
-        allPostContainer.classList.add('hidden');
-        toggleErrorAlert(true);
+        // error-alert
+        toggleState(false, 'all-post');
+        toggleState(true, 'error-alert');
     }
     else {
-        toggleErrorAlert(false);
-        allPostContainer.classList.add('flex');
-        allPostContainer.classList.remove('hidden');
+        toggleState(false, 'error-alert'); // reset error-alert
+        toggleState(true, 'all-post');
         posts.forEach(post => {
             const postCard = document.createElement('div');
             postCard.classList = 'card card-side bg-[#F3F3F5] gap-2 md:gap-10 rounded-3xl p-4 md:p-10 lg:w-[652px] xl:w-[828px]';
@@ -96,7 +90,7 @@ const displayAllPost = (posts) => {
             btn.addEventListener('click', () => markAsRead(post.title, post.view_count));
         });
     }
-    toggleLoader(false, 'data-loader');
+    toggleState(false, 'data-loader');
 }
 
 // display latest post
@@ -137,7 +131,12 @@ const displayLatestPosts = (data) => {
 
 // fetch data
 const fetchPosts = (type = null, category = null, timeout = 2000) => {
-    toggleLoader(true, 'data-loader');
+    if (type === 'all-post' || type === 'search') {
+        toggleState(false, 'error-alert');
+        toggleState(true, 'all-post');
+        document.getElementById('all-post').textContent = '';
+    }
+    toggleState(true, 'data-loader');
     let url = null;
     if (type === 'latest-posts')
         url = 'https://openapi.programming-hero.com/api/retro-forum/latest-posts';
